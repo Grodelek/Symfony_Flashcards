@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    {{ include('flashcards/navbar.html.twig') }}
+
+    <div class="container mt-4">
+
+        <h1 class="text-center">Flashcards</h1>
+        <div class="d-flex flex-column align-items-center mt-4"> 
+        <a class="btn btn-outline-info" href="{{ path('box_done') }}">📦 Done ✅</a>
+
+                {% for flashcard in flashcards %}
+                    <div class="card m-4" > 
+                        <div class="card-body">
+                            <h5 class="card-title">{{ flashcard.topic }}</h5>
+                            <hr class="hr-new">
+                            <p class="card-text">{{ flashcard.answer }}</p>
+                            <a class="btn btn-danger" href="{{ path('cards_delete', { 'id': flashcard.id }) }}">Delete</a>
+                            <a class="btn btn-primary" href="{{ path('cards_update', { 'id': flashcard.id }) }}">Update</a>
+
+                        </div>
+                    </div>
+                {% else %}
+                    <p class="text-center">No flashcards available.</p>
+                {% endfor %}
+            <a class="btn btn-primary btn-lg card-btn" href="{{ path('homepage') }}">Home</a>
+            <a class="btn btn-primary btn-lg card-btn" href="{{ path('cards_add') }}">Add Flashcard</a>
+
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,30 @@
+body {
+    background: #4e54c8;  
+    background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8); 
+}
+nav{
+    background-color: rgba(255, 255, 255, 0.764);
+    background: -webkit-linear-gradient(to left, #a2a2a3, #ddddec); 
+
+}
+.card-body:hover{
+    background-color: rgb(205, 199, 199);
+}
+.card-title{
+    text-align: center;
+}
+.hr-new{
+    border-top: 1px solid rrgba(0, 0, 0, 0.581)
+}
+.card-body{
+    background-color: #fff;
+    width: 250px;
+    height: 250px;
+}
+.card-btn{
+    width: 250px;
+    margin: 10px;
+}
+.nav-link:hover{
+    font-size: 18px;
+}
