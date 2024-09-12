@@ -1,0 +1,10 @@
+node_modules
+# Composer
+/vendor/
+
+# Symfony
+/var/
+/public/bundles/
+.env.local
+.env.*.local
+*.log

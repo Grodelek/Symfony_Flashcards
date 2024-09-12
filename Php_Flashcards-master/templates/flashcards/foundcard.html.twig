@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<div class="card mb-4" > 
+    <div class="card-body">
+        <h5 class="card-title">{{ card.topic }}</h5>
+        <hr class="hr-new">
+        <p class="card-text">{{ card.answer }}</p>
+        <a class="btn btn-danger" href="route( {{'cards_delete'}} )">Delete</a>
+    </div>
+</div>
+{% endblock %}
