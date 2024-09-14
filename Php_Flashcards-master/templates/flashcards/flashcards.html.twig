@@ -15,9 +15,11 @@
                             <h5 class="card-title">{{ flashcard.topic }}</h5>
                             <hr class="hr-new">
                             <p class="card-text">{{ flashcard.answer }}</p>
-                            <a class="btn btn-danger" href="{{ path('cards_delete', { 'id': flashcard.id }) }}">Delete</a>
+                            <form action="{{ path('cards_delete', {'id': flashcard.id}) }}" method="post" onsubmit="return confirm('Do you really want to delete this flashcard?');" style="display: inline-block;">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn btn-danger">Usuń</button>
+                            </form>           
                             <a class="btn btn-primary" href="{{ path('cards_update', { 'id': flashcard.id }) }}">Update</a>
-
                         </div>
                     </div>
                 {% else %}

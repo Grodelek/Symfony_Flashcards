@@ -32,12 +32,13 @@ class FlashcardsController extends AbstractController
 
     #[Route('/api/flashcards', name: "cards_all", methods: ['GET'])]
     public function getCard(){
+
         $user = $this->security->getUser();
         if (!is_object($user) || !$user instanceof User) {
             throw new \Exception('The user object is not istance of User class');
         }
         $userId = $user->getId();
-      $flashcards = $this->flashcardsRepository->findByUserId($userId);
+        $flashcards = $this->flashcardsRepository->findByUserId($userId);
 
       return $this->render('flashcards/flashcards.html.twig',[
         'flashcards' => $flashcards,
@@ -80,7 +81,7 @@ class FlashcardsController extends AbstractController
         ]);
     }
 
-    #[Route('/api/flashcards/{id}/delete', name:"cards_delete", methods: ['GET'])]
+    #[Route('/api/flashcards/{id}/delete', name:"cards_delete", methods: ['POST'])]
     public function delete($id): Response
     {
         $card = $this->flashcardsRepository->find($id);
