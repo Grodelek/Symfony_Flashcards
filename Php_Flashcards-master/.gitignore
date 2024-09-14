@@ -5,6 +5,7 @@ node_modules
 # Symfony
 /var/
 /public/bundles/
+.env
 .env.local
 .env.*.local
 *.log

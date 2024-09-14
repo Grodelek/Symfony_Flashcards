@@ -1,30 +1,94 @@
 body {
     background: #4e54c8;  
     background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8); 
+    background: linear-gradient(to left, #8f94fb, #4e54c8);
 }
-nav{
-    background-color: rgba(255, 255, 255, 0.764);
-    background: -webkit-linear-gradient(to left, #a2a2a3, #ddddec); 
-
-}
-.card-body:hover{
-    background-color: rgb(205, 199, 199);
-}
-.card-title{
+.card-title {
     text-align: center;
 }
-.hr-new{
-    border-top: 1px solid rrgba(0, 0, 0, 0.581)
+.hr-new {
+    border-top: 1px solid rgba(0, 0, 0, 0.581);
 }
-.card-body{
-    background-color: #fff;
-    width: 250px;
-    height: 250px;
+.btn{
+    margin: 5px;
 }
-.card-btn{
+.card-btn {
     width: 250px;
     margin: 10px;
 }
-.nav-link:hover{
+
+.nav-link:hover {
     font-size: 18px;
+}
+
+.flashcard-container {
+    perspective: 1000px; 
+}
+
+.flashcard {
+    width: 300px;
+    height: 200px;
+    position: relative;
+    transform-style: preserve-3d; 
+    transition: transform 0.6s;
+    cursor: pointer;
+    
+}
+
+.flashcard.flipped {
+    transform: rotateY(180deg);
+}
+
+.flashcard .front, .flashcard .back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    border-radius: 15px;
+}
+
+.flashcard .front {
+    background-color: #f9f9f9;
+    color: black;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.flashcard .back {
+    background-color: #0a4394;
+    color: white;
+    transform: rotateY(180deg); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.card-title, .card-text {
+    margin: 0;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.hr-new {
+    width: 100%;
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+}
+.card-btn {
+    width: 250px;
+    margin: 10px;
 }
