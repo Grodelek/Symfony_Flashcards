@@ -20,7 +20,7 @@
                                 <button type="submit" class="btn btn-danger">Usuń</button>
                             </form>           
                             <a class="btn btn-primary" href="{{ path('cards_update', { 'id': flashcard.id }) }}">Update</a>
-                        </div>
+                            </div>
                             <div class="back">
                                 <p class="card-text">{{ flashcard.answer }}</p>
                             </div>
@@ -29,6 +29,8 @@
                 {% else %}
                     <p class="text-center">No flashcards available.</p>
                 {% endfor %}
+            {{ pagerfanta(pager) }}
+
             <a class="btn btn-primary btn-lg card-btn" href="{{ path('homepage') }}">Home</a>
             <a class="btn btn-primary btn-lg card-btn" href="{{ path('cards_add') }}"><i class="fa-solid fa-plus"></i>Add Flashcard</a>
         </div>

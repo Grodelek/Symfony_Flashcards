@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Flashcards;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -15,13 +16,21 @@ class FlashcardsRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Flashcards::class);
     }
-    public function findByUserId($userId) {
+    public function findByUserId($userId)
+    {
 
         return $this->createQueryBuilder('f')
             ->where('f.user = :userId')
             ->setParameter('userId', $userId)
             ->getQuery()
             ->getResult();
+    }
+    public function findByUserIdQuery($userId): QueryBuilder
+    {
+
+        return $this->createQueryBuilder('f')
+            ->where('f.user = :userId')
+            ->setParameter('userId', $userId);
     }
 
     //    /**

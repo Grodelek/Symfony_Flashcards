@@ -6,6 +6,8 @@ use App\Entity\Flashcards;
 use App\Form\FlashcardsType;
 use App\Repository\FlashcardsRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,22 +33,31 @@ class FlashcardsController extends AbstractController
     }
 
     #[Route('/api/flashcards', name: "cards_all", methods: ['GET'])]
-    public function getCard(){
+    public function getCard(Request $request): Response
+    {
 
         $user = $this->security->getUser();
         if (!is_object($user) || !$user instanceof User) {
             throw new \Exception('The user object is not istance of User class');
         }
         $userId = $user->getId();
-        $flashcards = $this->flashcardsRepository->findByUserId($userId);
+        $flashcardsQuery = $this->flashcardsRepository->findByUserIdQuery($userId);
+
+        $adapter = new QueryAdapter($flashcardsQuery);
+        $pagerfanta = new Pagerfanta($adapter);
+        $currentPage = $request->query->getInt('page', 1);
+        $pagerfanta->setMaxPerPage(3);
+        $pagerfanta->setCurrentPage($currentPage);
 
       return $this->render('flashcards/flashcards.html.twig',[
-        'flashcards' => $flashcards,
+          'flashcards' => $pagerfanta->getCurrentPageResults(),
+          'pager' => $pagerfanta,
       ]);
     }
 
     #[Route('/api/flashcards/add', name: "cards_add", methods: ['GET','POST'])]
-    public function add(Request $request){
+    public function add(Request $request): Response
+    {
 
         $flashcard = new Flashcards();
         $user = $this->security->getUser();
