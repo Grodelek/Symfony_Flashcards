@@ -92,3 +92,9 @@ body {
     width: 250px;
     margin: 10px;
 }
+.inner {
+    padding: 30px;
+}
+.cover-heading{
+    color: #1a1919;
+}
