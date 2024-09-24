@@ -23,6 +23,7 @@
                             </div>
                             <div class="back">
                                 <p class="card-text">{{ flashcard.answer }}</p>
+                                <a class="btn btn-outline-success" href="{{ path('mark_done', {'id': flashcard.id}) }}">✅</a>
                             </div>
                         </div>
                     </div>

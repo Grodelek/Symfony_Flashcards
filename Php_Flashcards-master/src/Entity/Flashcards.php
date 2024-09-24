@@ -23,6 +23,9 @@ class Flashcards
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user;
 
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $card_status = null;
+
 
     public function getUser(): ?User
     {
@@ -61,6 +64,18 @@ class Flashcards
     public function setAnswer(string $answer): static
     {
         $this->answer = $answer;
+
+        return $this;
+    }
+
+    public function getCardStatus(): ?string
+    {
+        return $this->card_status;
+    }
+
+    public function setCardStatus(?string $card_status): static
+    {
+        $this->card_status = $card_status;
 
         return $this;
     }
