@@ -32,6 +32,12 @@ class FlashcardsRepository extends ServiceEntityRepository
             ->where('f.user = :userId')
             ->setParameter('userId', $userId);
     }
+    public function createDoneQueryBuilder(): QueryBuilder
+    {
+        return $this->createQueryBuilder('f')
+            ->where('f.card_status = :status')
+            ->setParameter('status', 'Done');
+    }
 
     //    /**
     //     * @return Flashcards[] Returns an array of Flashcards objects
@@ -57,4 +63,5 @@ class FlashcardsRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
 }

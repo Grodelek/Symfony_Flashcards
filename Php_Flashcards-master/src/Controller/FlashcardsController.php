@@ -35,10 +35,9 @@ class FlashcardsController extends AbstractController
     #[Route('/api/flashcards', name: "cards_all", methods: ['GET'])]
     public function getCard(Request $request): Response
     {
-
         $user = $this->security->getUser();
         if (!is_object($user) || !$user instanceof User) {
-            throw new \Exception('The user object is not istance of User class');
+            throw new \Exception('The user object is not an instance of User class');
         }
         $userId = $user->getId();
         $flashcardsQuery = $this->flashcardsRepository->findByUserIdQuery($userId);
@@ -46,13 +45,23 @@ class FlashcardsController extends AbstractController
         $adapter = new QueryAdapter($flashcardsQuery);
         $pagerfanta = new Pagerfanta($adapter);
         $currentPage = $request->query->getInt('page', 1);
+
         $pagerfanta->setMaxPerPage(3);
+        $totalPages = $pagerfanta->getNbPages();
+
+        if ($currentPage > $totalPages) {
+            return $this->redirectToRoute('cards_all', ['page' => $totalPages]);
+        }
         $pagerfanta->setCurrentPage($currentPage);
 
-      return $this->render('flashcards/flashcards.html.twig',[
-          'flashcards' => $pagerfanta->getCurrentPageResults(),
-          'pager' => $pagerfanta,
-      ]);
+        if ($pagerfanta->getCurrentPageResults() == NULL && $currentPage < $totalPages) {
+            $pagerfanta->setCurrentPage($currentPage + 1);
+        }
+
+        return $this->render('flashcards/flashcards.html.twig', [
+            'flashcards' => $pagerfanta->getCurrentPageResults(),
+            'pager' => $pagerfanta,
+        ]);
     }
 
     #[Route('/api/flashcards/add', name: "cards_add", methods: ['GET','POST'])]

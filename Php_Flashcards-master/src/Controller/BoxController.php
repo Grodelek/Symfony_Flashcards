@@ -1,8 +1,12 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\FlashcardsRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Pagerfanta;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,11 +20,20 @@ class BoxController extends AbstractController
     {
     }
     #[Route('api/flashcards/box-done', name: 'box_done', methods: ['GET'])]
-    public function getDone(): Response
+    public function getDone(Request $request): Response
     {
-        $flashcards = $this->flashcardsRepository->findBy(['card_status' => 'Done']);
+        $queryBuilder = $this->flashcardsRepository->createDoneQueryBuilder();
+
+        $adapter = new QueryAdapter($queryBuilder);
+        $pagerfanta = new Pagerfanta($adapter);
+        $currentPage = $request->query->getInt('page', 1);
+
+        $pagerfanta->setMaxPerPage(3);
+        $pagerfanta->setCurrentPage($currentPage);
         return $this->render('boxes/done.html.twig',[
-            'flashcards' => $flashcards
+//            'flashcards' => $flashcards,
+            'flashcards' => $pagerfanta->getCurrentPageResults(),
+            'pager' => $pagerfanta,
         ]);
     }
 
