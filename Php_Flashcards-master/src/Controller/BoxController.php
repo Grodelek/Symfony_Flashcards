@@ -31,7 +31,6 @@ class BoxController extends AbstractController
         $pagerfanta->setMaxPerPage(3);
         $pagerfanta->setCurrentPage($currentPage);
         return $this->render('boxes/done.html.twig',[
-//            'flashcards' => $flashcards,
             'flashcards' => $pagerfanta->getCurrentPageResults(),
             'pager' => $pagerfanta,
         ]);
