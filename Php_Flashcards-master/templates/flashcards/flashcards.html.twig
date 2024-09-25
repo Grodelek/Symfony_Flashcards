@@ -9,8 +9,7 @@
         <div class="d-flex flex-column align-items-center mt-4">
         <a class="btn btn-outline-info" href="{{ path('box_done') }}">📦 Done ✅</a>
 
-                {% for flashcard in flashcards %}
-                    {%  if flashcard.cardStatus == NULL %}
+                {% for flashcard in pager %}
                     <div class="flashcard-container card m-4" onclick="flipCard(this)">
                         <div class="flashcard">
                             <div class="front">
@@ -28,7 +27,6 @@
                             </div>
                         </div>
                     </div>
-                    {% endif %}
                 {% else %}
                     <p class="text-center">No flashcards available.</p>
                 {% endfor %}

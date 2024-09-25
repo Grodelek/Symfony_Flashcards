@@ -38,6 +38,11 @@ class FlashcardsRepository extends ServiceEntityRepository
             ->where('f.card_status = :status')
             ->setParameter('status', 'Done');
     }
+    public function createNoneQueryBuilder(): QueryBuilder
+    {
+        return $this->createQueryBuilder('f')
+            ->where('f.card_status IS NULL');
+    }
 
     //    /**
     //     * @return Flashcards[] Returns an array of Flashcards objects

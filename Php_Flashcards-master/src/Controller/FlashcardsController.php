@@ -35,29 +35,14 @@ class FlashcardsController extends AbstractController
     #[Route('/api/flashcards', name: "cards_all", methods: ['GET'])]
     public function getCard(Request $request): Response
     {
-        $user = $this->security->getUser();
-        if (!is_object($user) || !$user instanceof User) {
-            throw new \Exception('The user object is not an instance of User class');
-        }
-        $userId = $user->getId();
-        $flashcardsQuery = $this->flashcardsRepository->findByUserIdQuery($userId);
+        $queryBuilder = $this->flashcardsRepository->createNoneQueryBuilder();
 
-        $adapter = new QueryAdapter($flashcardsQuery);
+        $adapter = new QueryAdapter($queryBuilder);
         $pagerfanta = new Pagerfanta($adapter);
         $currentPage = $request->query->getInt('page', 1);
 
         $pagerfanta->setMaxPerPage(3);
-        $totalPages = $pagerfanta->getNbPages();
-
-        if ($currentPage > $totalPages) {
-            return $this->redirectToRoute('cards_all', ['page' => $totalPages]);
-        }
         $pagerfanta->setCurrentPage($currentPage);
-
-        if ($pagerfanta->getCurrentPageResults() == NULL && $currentPage < $totalPages) {
-            $pagerfanta->setCurrentPage($currentPage + 1);
-        }
-
         return $this->render('flashcards/flashcards.html.twig', [
             'flashcards' => $pagerfanta->getCurrentPageResults(),
             'pager' => $pagerfanta,
@@ -111,7 +96,9 @@ class FlashcardsController extends AbstractController
         $this->entityManager->remove($card);
         $this->entityManager->flush();
         $this->addFlash('notice', 'Card deleted successfully!');
-        
+        if($card->getCardStatus() == 'Done'){
+            return $this->redirectToRoute('box_done');
+        }
         return $this->redirectToRoute('cards_all');
     }
 
