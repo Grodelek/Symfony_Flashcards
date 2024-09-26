@@ -38,10 +38,12 @@ class FlashcardsRepository extends ServiceEntityRepository
             ->where('f.card_status = :status')
             ->setParameter('status', 'Done');
     }
-    public function createNoneQueryBuilder(): QueryBuilder
+    public function createNoneQueryBuilder($userId): QueryBuilder
     {
         return $this->createQueryBuilder('f')
-            ->where('f.card_status IS NULL');
+            ->where('f.user = :userId')
+            ->andWhere('f.card_status IS NULL')
+            ->setParameter('userId', $userId);
     }
 
     //    /**

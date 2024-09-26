@@ -1,7 +1,21 @@
+
 body {
-    background: #4e54c8;  
-    background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8); 
-    background: linear-gradient(to left, #8f94fb, #4e54c8);
+    background: #4e54c8;
+    background: linear-gradient(270deg, #8f94fb, #4e54c8, #8f94fb);
+    background-size: 600% 600%;
+    animation: gradientAnimation 20s ease infinite;
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 .card-title {
     text-align: center;

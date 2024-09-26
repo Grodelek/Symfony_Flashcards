@@ -35,7 +35,13 @@ class FlashcardsController extends AbstractController
     #[Route('/api/flashcards', name: "cards_all", methods: ['GET'])]
     public function getCard(Request $request): Response
     {
-        $queryBuilder = $this->flashcardsRepository->createNoneQueryBuilder();
+        $user = $this->security->getUser();
+        if(!is_object($user) || !$user instanceof User){
+            throw new \Exception('The user object is not instance of User class');
+        }
+        $userId = $user->getId();
+
+        $queryBuilder = $this->flashcardsRepository->createNoneQueryBuilder($userId);
 
         $adapter = new QueryAdapter($queryBuilder);
         $pagerfanta = new Pagerfanta($adapter);
@@ -43,6 +49,7 @@ class FlashcardsController extends AbstractController
 
         $pagerfanta->setMaxPerPage(3);
         $pagerfanta->setCurrentPage($currentPage);
+
         return $this->render('flashcards/flashcards.html.twig', [
             'flashcards' => $pagerfanta->getCurrentPageResults(),
             'pager' => $pagerfanta,

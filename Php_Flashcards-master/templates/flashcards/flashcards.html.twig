@@ -7,7 +7,7 @@
 
         <h1 class="text-center">Flashcards</h1>
         <div class="d-flex flex-column align-items-center mt-4">
-        <a class="btn btn-outline-info" href="{{ path('box_done') }}">📦 Done ✅</a>
+        <a class="btn btn-success" href="{{ path('box_done') }}"> 📦 Done ✅ </a>
 
                 {% for flashcard in pager %}
                     <div class="flashcard-container card m-4" onclick="flipCard(this)">
