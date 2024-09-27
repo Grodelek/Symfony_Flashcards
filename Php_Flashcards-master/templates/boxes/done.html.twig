@@ -7,7 +7,7 @@
 
         <h1 class="text-center">Flashcards Done</h1>
         <div class="d-flex flex-column align-items-center mt-4">
-            <a class="btn btn-outline-success" href="{{ path('cards_all') }}">📦 All Cards</a>
+            <a class="btn btn-success" href="{{ path('cards_all') }}">📦 All Cards</a>
 
             {% for flashcard in flashcards %}
                 {% if flashcard.cardStatus == 'Done' %}
