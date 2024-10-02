@@ -148,6 +148,14 @@
       <path value="$PROJECT_DIR$/Php_Flashcards-master/vendor/pagerfanta/doctrine-orm-adapter" />
       <path value="$PROJECT_DIR$/Php_Flashcards-master/vendor/pagerfanta/twig" />
       <path value="$PROJECT_DIR$/Php_Flashcards-master/vendor/babdev/pagerfanta-bundle" />
+      <path value="$PROJECT_DIR$/Php_Flashcards-master/vendor/nyholm/psr7" />
+      <path value="$PROJECT_DIR$/Php_Flashcards-master/vendor/php-http/multipart-stream-builder" />
+      <path value="$PROJECT_DIR$/Php_Flashcards-master/vendor/php-http/discovery" />
+      <path value="$PROJECT_DIR$/Php_Flashcards-master/vendor/openai-php/symfony" />
+      <path value="$PROJECT_DIR$/Php_Flashcards-master/vendor/openai-php/client" />
+      <path value="$PROJECT_DIR$/Php_Flashcards-master/vendor/psr/http-client" />
+      <path value="$PROJECT_DIR$/Php_Flashcards-master/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/Php_Flashcards-master/vendor/psr/http-message" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />

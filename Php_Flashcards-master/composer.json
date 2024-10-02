@@ -12,6 +12,8 @@
         "doctrine/doctrine-bundle": "^2.12",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^3.2",
+        "openai-php/client": "^0.10.1",
+        "openai-php/symfony": "^0.10.0",
         "pagerfanta/doctrine-orm-adapter": "^4.7",
         "pagerfanta/pagerfanta": "^2.0",
         "pagerfanta/twig": "^4.7",

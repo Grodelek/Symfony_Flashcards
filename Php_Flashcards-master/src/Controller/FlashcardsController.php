@@ -5,6 +5,7 @@ use App\Entity\User;
 use App\Entity\Flashcards;
 use App\Form\FlashcardsType;
 use App\Repository\FlashcardsRepository;
+use App\Service\OpenAiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
@@ -18,14 +19,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FlashcardsController extends AbstractController
 {
-
     public function __construct(
         private FlashcardsRepository $flashcardsRepository,
         private EntityManagerInterface $entityManager,
-        private Security $security
+        private Security $security,
         ){
     }
-    
     #[Route('/', name: 'homepage', methods: ['GET'])]
     public function home(): Response
     {
@@ -40,16 +39,12 @@ class FlashcardsController extends AbstractController
             throw new \Exception('The user object is not instance of User class');
         }
         $userId = $user->getId();
-
         $queryBuilder = $this->flashcardsRepository->createNoneQueryBuilder($userId);
-
         $adapter = new QueryAdapter($queryBuilder);
         $pagerfanta = new Pagerfanta($adapter);
         $currentPage = $request->query->getInt('page', 1);
-
         $pagerfanta->setMaxPerPage(3);
         $pagerfanta->setCurrentPage($currentPage);
-
         return $this->render('flashcards/flashcards.html.twig', [
             'flashcards' => $pagerfanta->getCurrentPageResults(),
             'pager' => $pagerfanta,
@@ -59,13 +54,11 @@ class FlashcardsController extends AbstractController
     #[Route('/api/flashcards/add', name: "cards_add", methods: ['GET','POST'])]
     public function add(Request $request): Response
     {
-
         $flashcard = new Flashcards();
         $user = $this->security->getUser();
-        if(!$user){
+        if(!$user) {
             return $this->redirectToRoute('app_login');
         }
-
         $form = $this->createForm(FlashcardsType::class, $flashcard);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
@@ -73,10 +66,8 @@ class FlashcardsController extends AbstractController
             $flashcard->setUser($user);
             $this->entityManager->persist($flashcard);
             $this->entityManager->flush();
-
             return $this->redirectToRoute('cards_all');
         }
-
         return $this->render('flashcards/new.html.twig',[
             'form' => $form,
         ]);
@@ -86,10 +77,9 @@ class FlashcardsController extends AbstractController
     public function findById($id): Response
     {
         $card = $this->flashcardsRepository->find($id);
-    
         return $this->render('flashcards/foundcard.html.twig',[
             'id' => $id,
-            'card' => $card,
+            'flashcard' => $card,
         ]);
     }
 
@@ -118,16 +108,12 @@ class FlashcardsController extends AbstractController
         ->add('answer', TextType::class)
         ->add('save', SubmitType::class)
         ->getForm();
-
         $form->handleRequest($request);
-
         if($form->isSubmitted() && $form->isValid()){
             $this->entityManager->flush();
-
             $this->addFlash('success', 'Card updated successfully!');
            return $this->redirectToRoute('cards_all');
         }
-
         return $this->render('flashcards/cardupdate.html.twig',[
             'form' => $form,
         ]);
