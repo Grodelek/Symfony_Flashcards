@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Flashcards;
+use App\Form\FlashcardSearchType;
 use App\Form\FlashcardsType;
 use App\Repository\FlashcardsRepository;
 use App\Service\OpenAiService;
@@ -16,14 +17,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
+use Symfony\Component\Form\FormFactoryInterface;
 class FlashcardsController extends AbstractController
 {
     public function __construct(
         private FlashcardsRepository $flashcardsRepository,
         private EntityManagerInterface $entityManager,
         private Security $security,
-        ){
+    ){
     }
     #[Route('/', name: 'homepage', methods: ['GET'])]
     public function home(): Response
@@ -51,6 +52,30 @@ class FlashcardsController extends AbstractController
         ]);
     }
 
+    #[Route('/api/flashcards/search', name: "search_card")]
+    public function search(Request $request): Response
+    {
+        $form = $this->createForm(FlashcardSearchType::class);
+        $form->handleRequest($request);
+        dump($form->createView());
+        $results = [];
+        if ($form->isSubmitted() && $form->isValid()) {
+            $searchQuery = $form->get('query')->getData();
+            $results = $this->entityManager->getRepository(Flashcards::class)
+                ->createQueryBuilder('f')
+                ->where('f.topic LIKE :query')
+                ->setParameter('query', '%' . $searchQuery . '%')
+                ->getQuery()
+                ->getResult();
+            if (count($results) > 0) {
+                return $this->redirectToRoute('cards_find', ['id' => $results[0]->getId()]);
+            }
+        }
+        return $this->render('flashcards/search.html.twig',[
+            'form' => $form->createView(),
+            'results' => $results,
+        ]);
+    }
     #[Route('/api/flashcards/add', name: "cards_add", methods: ['GET','POST'])]
     public function add(Request $request): Response
     {
@@ -104,21 +129,18 @@ class FlashcardsController extends AbstractController
     {
         $card = $this->flashcardsRepository->find($id);
         $form = $this->createFormBuilder($card)
-        ->add('topic', TextType::class)
-        ->add('answer', TextType::class)
-        ->add('save', SubmitType::class)
-        ->getForm();
+            ->add('topic', TextType::class)
+            ->add('answer', TextType::class)
+            ->add('save', SubmitType::class)
+            ->getForm();
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $this->entityManager->flush();
             $this->addFlash('success', 'Card updated successfully!');
-           return $this->redirectToRoute('cards_all');
+            return $this->redirectToRoute('cards_all');
         }
         return $this->render('flashcards/cardupdate.html.twig',[
             'form' => $form,
         ]);
     }
-
-
-
 }
