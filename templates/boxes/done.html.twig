@@ -1,0 +1,46 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    {{ include('flashcards/navbar.html.twig') }}
+
+    <div class="container mt-4">
+
+        <h1 class="text-center">Flashcards Done</h1>
+        <div class="d-flex flex-column align-items-center mt-4">
+            <a class="btn btn-success" href="{{ path('cards_all') }}">📦 All Cards</a>
+            {% for flashcard in flashcards %}
+                {% if flashcard.cardStatus == 'Done' %}
+                <div class="flashcard-container card m-4" onclick="flipCard(this)">
+                    <div class="flashcard">
+                        <div class="front">
+                            <p class="card-title">{{ flashcard.topic }}</p>
+                            <hr class="hr-new">
+                            <form action="{{ path('cards_delete', {'id': flashcard.id}) }}" method="post" onsubmit="return confirm('Do you really want to delete this flashcard?');" style="display: inline-block;">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn btn-danger">Usuń</button>
+                            </form>
+                            <a class="btn btn-primary" href="{{ path('cards_update', { 'id': flashcard.id }) }}">Update</a>
+                        </div>
+                        <div class="back">
+                            <p class="card-text">{{ flashcard.answer }}</p>
+                            <a class="btn btn-outline-danger" href="{{ path('card_reset', {'id': flashcard.id}) }}">❌</a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% else %}
+                <p class="text-center">No flashcards available.</p>
+            {% endfor %}
+            {{ pagerfanta(pager) }}
+
+            <a class="btn btn-primary btn-lg card-btn" href="{{ path('homepage') }}">Home</a>
+            <a class="btn btn-primary btn-lg card-btn" href="{{ path('cards_add') }}"><i class="fa-solid fa-plus"></i>Add Flashcard</a>
+        </div>
+    </div>
+
+    <script>
+        function flipCard(flashcard){
+            flashcard.querySelector('.flashcard').classList.toggle('flipped');
+        }
+    </script>
+{% endblock %}

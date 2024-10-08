@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 style="text-align: center;">Code 404 page not found</h1>
+
+    <p style="text-align: center;">
+        The requested page couldn't be located. Checkout for any URL
+        Exception: 
+        {{ statusCode }}
+        misspelling or <a href="{{ path('homepage') }}">return to the homepage</a>.
+    </p>
+{% endblock %}

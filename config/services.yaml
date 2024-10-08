@@ -1,0 +1,19 @@
+# config/services.yaml
+
+parameters:
+
+services:
+
+
+    # Domyślna konfiguracja
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    # Konfiguracja klas w src/
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
