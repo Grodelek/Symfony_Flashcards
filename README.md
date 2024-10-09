@@ -1,5 +1,5 @@
 # PHP Flashcards
-
+![obraz](https://github.com/user-attachments/assets/1f9b99da-3316-430d-a0f0-284bae335de4)
 ## Features
 
 - User registration and authentication
