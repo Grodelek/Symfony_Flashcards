@@ -6,7 +6,7 @@
 - Create, edit, and delete flashcards
 - Organize flashcards into categories
 - Study mode to review flashcards
-- Responsive design for desktop and mobile devices
+- Responsive design
 
 ## Technologies Used
 
