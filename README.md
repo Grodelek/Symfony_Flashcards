@@ -26,7 +26,8 @@
 
 2. Run in terminal:
    ```bash
-   composer install then npm install
+   composer install
+   npm install
 
 3. Create mysql database with tables flashcards && user
    ```bash
