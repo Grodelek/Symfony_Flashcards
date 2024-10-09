@@ -36,7 +36,7 @@
     topic VARCHAR(255) NOT NULL,
     answer TEXT NOT NULL,
     user_id INT NOT NULL,
-    card_status VARCHAR(50) DEFAULT 'NULL'  -- Changed to VARCHAR);
+    card_status VARCHAR(50) DEFAULT 'NULL');
 
    CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
