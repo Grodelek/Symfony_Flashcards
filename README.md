@@ -44,7 +44,7 @@
     roles JSON NOT NULL, 
     password VARCHAR(255) NOT NULL);
    
-3. Create .env file in root directory and add this:
+3. Create .env file in root directory and add this with your data:
    ```bash
    DB_URL=mysql://myuserName:mypassword@localhost:3306/mydatabaseName
 
